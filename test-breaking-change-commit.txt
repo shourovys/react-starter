@@ -1,0 +1,6 @@
+feat!: add commitlint configuration to the project
+
+This commit adds commitlint with conventional commits rules
+to ensure consistent commit message formatting.
+
+Closes #123

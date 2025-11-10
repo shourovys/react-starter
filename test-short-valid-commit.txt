@@ -1,0 +1,6 @@
+feat!: add commitlint to project
+
+Adds commitlint with conventional commits rules
+for consistent formatting.
+
+BREAKING CHANGE: Updated commit message structure

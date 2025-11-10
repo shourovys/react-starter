@@ -1,40 +1,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Commit message hook for Conventional Commits
-echo "📝 Validating commit message..."
+# Commit message hook using commitlint
+echo "📝 Validating commit message with commitlint..."
 
-# Read the commit message from the file path provided by Husky
-commit_message_file="$1"
-
-if [ ! -f "$commit_message_file" ]; then
-  echo "❌ Commit message file not found: $commit_message_file"
-  exit 1
-fi
-
-# Get only the first line (subject) from the file
-subject_line=$(sed -n '1p' "$commit_message_file")
-
-# Regex to match Conventional Commits format (first line only)
-commit_regex="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?(!)?: .+"
-
-if ! echo "$subject_line" | grep -Eq "$commit_regex"; then
-  echo "❌ Invalid commit message format!"
-  echo ""
-  echo "Please use Conventional Commits format:"
-  echo "  <type>(<scope>): <subject>"
-  echo "  [optional body]"
-  echo "  [optional footer]"
-  echo ""
-  echo "Examples:"
-  echo "  feat: add new component"
-  echo "  fix(button): resolve click handler issue"
-  echo "  docs: update README with new features"
-  echo "  refactor!: complete API redesign"
-  echo ""
-  echo "Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert"
-  echo "Use ! for breaking changes"
-  echo "Subject line was: '$subject_line'"
-  exit 1
-fi
-
-echo "✅ Commit message format is valid!"
+npx commitlint --edit "$1"
