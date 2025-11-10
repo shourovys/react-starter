@@ -23,6 +23,7 @@
     "exactOptionalPropertyTypes": true,
 
     /* Path mapping */
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
