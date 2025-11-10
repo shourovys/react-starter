@@ -38,23 +38,23 @@ function App() {
   };
 
   return (
-    <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-      <div className='min-h-screen bg-background font-sans antialiased'>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <div className="min-h-screen bg-background font-sans antialiased">
         {/* Header */}
-        <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-          <div className='container flex h-14 items-center'>
-            <div className='mr-4 flex'>
-              <a className='mr-6 flex items-center space-x-2' href='/'>
-                <span className='hidden font-bold sm:inline-block'>
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container flex h-14 items-center">
+            <div className="mr-4 flex">
+              <a className="mr-6 flex items-center space-x-2" href="/">
+                <span className="hidden font-bold sm:inline-block">
                   React TypeScript Boilerplate
                 </span>
               </a>
             </div>
-            <div className='flex flex-1 items-center justify-between space-x-2 md:justify-end'>
-              <div className='w-full flex-1 md:w-auto md:flex-none'>
+            <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+              <div className="w-full flex-1 md:w-auto md:flex-none">
                 {/* Placeholder for future search */}
               </div>
-              <nav className='flex items-center'>
+              <nav className="flex items-center">
                 <ThemeToggle />
               </nav>
             </div>
@@ -62,24 +62,24 @@ function App() {
         </header>
 
         {/* Main Content */}
-        <main className='container mx-auto py-6 space-y-6'>
+        <main className="container mx-auto py-6 space-y-6">
           {/* Hero Section */}
-          <div className='text-center space-y-4'>
-            <h1 className='text-4xl font-bold tracking-tight'>
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold tracking-tight">
               React 19 + TypeScript 5.7 + Tailwind CSS + shadcn/ui
             </h1>
-            <p className='text-xl text-muted-foreground max-w-2xl mx-auto'>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               A production-ready boilerplate with testing, linting, and modern
               development tools.
             </p>
-            <div className='flex justify-center gap-4'>
+            <div className="flex justify-center gap-4">
               <Button>Get Started</Button>
-              <Button variant='outline'>View Documentation</Button>
+              <Button variant="outline">View Documentation</Button>
             </div>
           </div>
 
           {/* Features Grid */}
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>React 19</CardTitle>
@@ -88,7 +88,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className='text-sm text-muted-foreground'>
+                <p className="text-sm text-muted-foreground">
                   Built with the latest React 19 features including automatic
                   batching, transitions, and server components support.
                 </p>
@@ -104,7 +104,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className='text-sm text-muted-foreground'>
+                <p className="text-sm text-muted-foreground">
                   Full TypeScript support with strict mode, path aliases, and
                   comprehensive type checking.
                 </p>
@@ -119,7 +119,7 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className='text-sm text-muted-foreground'>
+                <p className="text-sm text-muted-foreground">
                   Beautiful, accessible components built with Tailwind CSS and
                   shadcn/ui design system.
                 </p>
@@ -128,31 +128,31 @@ function App() {
           </div>
 
           {/* Interactive Demo */}
-          <Card className='w-full max-w-2xl mx-auto'>
+          <Card className="w-full max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>Interactive Demo</CardTitle>
               <CardDescription>
                 Try out the components and theme toggle
               </CardDescription>
             </CardHeader>
-            <CardContent className='space-y-6'>
-              <div className='space-y-2'>
-                <Label htmlFor='name'>Your Name</Label>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="name">Your Name</Label>
                 <Input
-                  id='name'
-                  placeholder='Enter your name'
+                  id="name"
+                  placeholder="Enter your name"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={e => setName(e.target.value)}
                 />
               </div>
 
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <Button onClick={handleSubmit} disabled={!name.trim()}>
                   Show Welcome Toast
                 </Button>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant='outline'>Open Dialog</Button>
+                    <Button variant="outline">Open Dialog</Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
@@ -166,25 +166,25 @@ function App() {
                 </Dialog>
               </div>
 
-              <Tabs defaultValue='overview' className='w-full'>
+              <Tabs defaultValue="overview" className="w-full">
                 <TabsList>
-                  <TabsTrigger value='overview'>Overview</TabsTrigger>
-                  <TabsTrigger value='features'>Features</TabsTrigger>
-                  <TabsTrigger value='setup'>Setup</TabsTrigger>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="features">Features</TabsTrigger>
+                  <TabsTrigger value="setup">Setup</TabsTrigger>
                 </TabsList>
-                <TabsContent value='overview' className='space-y-2'>
+                <TabsContent value="overview" className="space-y-2">
                   <p>
                     This is the overview tab content showcasing the shadcn/ui
                     tabs component.
                   </p>
                 </TabsContent>
-                <TabsContent value='features' className='space-y-2'>
+                <TabsContent value="features" className="space-y-2">
                   <p>
                     Features include: React 19, TypeScript 5.7, Vite 6, Tailwind
                     CSS, shadcn/ui, Testing, and more!
                   </p>
                 </TabsContent>
-                <TabsContent value='setup' className='space-y-2'>
+                <TabsContent value="setup" className="space-y-2">
                   <p>
                     Quick setup: Clone the repo, install dependencies, and start
                     developing!
@@ -196,12 +196,12 @@ function App() {
         </main>
 
         {/* Footer */}
-        <footer className='border-t mt-10'>
-          <div className='container py-6 flex items-center justify-between'>
-            <p className='text-sm text-muted-foreground'>
+        <footer className="border-t mt-10">
+          <div className="container py-6 flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">
               Built with ❤️ using modern web technologies
             </p>
-            <p className='text-sm text-muted-foreground'>
+            <p className="text-sm text-muted-foreground">
               Ready for production deployment
             </p>
           </div>
