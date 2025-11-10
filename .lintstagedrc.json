@@ -1,5 +1,7 @@
 {
   "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
   "*.{js,jsx}": ["eslint --fix", "prettier --write"],
-  "*.{json,md,css,html}": ["prettier --write"]
+  "*.{json,md,css,html}": ["prettier --write"],
+  "src/**/*.{test,spec}.{ts,tsx}": ["vitest run --run --reporter=verbose"],
+  "tests/**/*.{test,spec}.{ts,tsx}": ["vitest run --run --reporter=verbose"]
 }
