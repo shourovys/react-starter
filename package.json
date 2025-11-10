@@ -51,6 +51,8 @@
     "@vitejs/plugin-basic-ssl": "^2.1.0",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitejs/plugin-react-swc": "^4.2.1",
+    "@vitest/coverage-v8": "2.1.0",
+    "@vitest/ui": "2.1.0",
     "autoprefixer": "10.4.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "9.1.0",
@@ -72,7 +74,8 @@
     "typescript-eslint": "^8.46.3",
     "vite": "^7.2.2",
     "vite-plugin-checker": "^0.11.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "2.1.0"
   },
   "packageManager": "yarn@4.11.0"
 }
