@@ -8,11 +8,11 @@ export type DeepPartial<T> = {
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type RequiredKeys<T> = {
-  [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
+  [K in keyof T]-?: object extends Pick<T, K> ? never : K;
 }[keyof T];
 
 export type OptionalKeys<T> = {
-  [K in keyof T]-?: {} extends Pick<T, K> ? K : never;
+  [K in keyof T]-?: object extends Pick<T, K> ? K : never;
 }[keyof T];
 
 // Common React types
@@ -21,17 +21,17 @@ export type ComponentProps<T extends keyof JSX.IntrinsicElements> =
 
 export type HookResult<T> = T extends () => infer R ? R : never;
 
-export type AsyncFunction = (...args: any[]) => Promise<any>;
+export type AsyncFunction = (...args: unknown[]) => Promise<unknown>;
 
 // API response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T;
   message: string;
   success: boolean;
   statusCode: number;
 }
 
-export interface PaginatedResponse<T = any> {
+export interface PaginatedResponse<T = unknown> {
   data: T[];
   pagination: {
     page: number;
@@ -45,7 +45,7 @@ export interface PaginatedResponse<T = any> {
 export interface AppError {
   code: string;
   message: string;
-  details?: any;
+  details?: unknown;
   timestamp: Date;
 }
 
@@ -90,6 +90,9 @@ export interface BuildConfig {
   isStaging: boolean;
 }
 
+// Theme types
+export type Theme = 'light' | 'dark' | 'system';
+
 // Global event types
 export interface GlobalEventMap extends WindowEventMap {
   'app:error': CustomEvent<AppError>;
@@ -102,7 +105,7 @@ export type EventHandler<T = Event> = (event: T) => void;
 
 export type AsyncEventHandler<T = Event> = (event: T) => Promise<void>;
 
-export type ComponentType<P = {}> = React.FC<P>;
+export type ComponentType<P = Record<string, never>> = React.FC<P>;
 
 // Re-export React types for convenience
 export * from '@types/react';
