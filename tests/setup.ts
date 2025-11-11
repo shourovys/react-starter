@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { afterAll, afterEach, beforeAll, vi } from 'vitest';
-import { server } from './mocks/server';
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
@@ -25,16 +24,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Setup MSW
-beforeAll(() => {
-  server.listen({ onUnhandledRequest: 'error' });
-});
+// Mock IntersectionObserver
+global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
 
+// Clean up after each test
 afterEach(() => {
-  server.resetHandlers();
   cleanup();
-});
-
-afterAll(() => {
-  server.close();
 });
