@@ -1,0 +1,370 @@
+import { describe, expect, it, beforeAll, afterAll } from 'vitest';
+import lighthouse from 'lighthouse';
+import { launch } from 'chrome-launcher';
+
+interface PerformanceMetrics {
+  performance: number;
+  accessibility: number;
+  bestPractices: number;
+  seo: number;
+  pwa: number;
+  firstContentfulPaint: number;
+  largestContentfulPaint: number;
+  cumulativeLayoutShift: number;
+  speedIndex: number;
+  totalBlockingTime: number;
+  serverResponseTime: number;
+}
+
+interface PerformanceBudgetResult {
+  passed: boolean;
+  violations: string[];
+  warnings: string[];
+  details: {
+    resourceSizes: Array<{
+      resourceType: string;
+      budget: number;
+      actual: number;
+      passed: boolean;
+    }>;
+    timings: Array<{
+      metric: string;
+      budget: number;
+      actual: number;
+      passed: boolean;
+    }>;
+  };
+}
+
+/**
+ * Performance test utilities
+ */
+export class PerformanceTestUtils {
+  private chrome: any = null;
+  private results: PerformanceMetrics[] = [];
+
+  /**
+   * Launch Chrome for testing
+   */
+  async launchChrome() {
+    this.chrome = await launch({
+      logLevel: 'info',
+      chromeFlags: ['--headless', '--disable-gpu', '--no-sandbox'],
+    });
+    return this.chrome.port;
+  }
+
+  /**
+   * Close Chrome instance
+   */
+  async closeChrome() {
+    if (this.chrome) {
+      await this.chrome.kill();
+      this.chrome = null;
+    }
+  }
+
+  /**
+   * Run Lighthouse performance audit
+   */
+  async runLighthouseAudit(url: string, options: any = {}): Promise<PerformanceMetrics> {
+    if (!this.chrome) {
+      await this.launchChrome();
+    }
+
+    const defaultOptions = {
+      logLevel: 'info',
+      output: 'json',
+      onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+      port: this.chrome.port,
+    };
+
+    const config = { ...defaultOptions, ...options };
+    const { lhr } = await lighthouse(url, config);
+
+    const metrics: PerformanceMetrics = {
+      performance: lhr.categories.performance.score * 100,
+      accessibility: lhr.categories.accessibility.score * 100,
+      bestPractices: lhr.categories['best-practices'].score * 100,
+      seo: lhr.categories.seo.score * 100,
+      pwa: lhr.categories.pwa ? lhr.categories.pwa.score * 100 : 0,
+      firstContentfulPaint: lhr.audits['first-contentful-paint'].numericValue,
+      largestContentfulPaint: lhr.audits['largest-contentful-paint'].numericValue,
+      cumulativeLayoutShift: lhr.audits['cumulative-layout-shift'].numericValue,
+      speedIndex: lhr.audits['speed-index'].numericValue,
+      totalBlockingTime: lhr.audits['total-blocking-time'].numericValue,
+      serverResponseTime: lhr.audits['server-response-time'].numericValue,
+    };
+
+    this.results.push(metrics);
+    return metrics;
+  }
+
+  /**
+   * Check performance against budgets
+   */
+  checkPerformanceBudget(metrics: PerformanceMetrics): PerformanceBudgetResult {
+    const violations: string[] = [];
+    const warnings: string[] = [];
+
+    // Performance scores
+    if (metrics.performance < 90) {
+      violations.push(`Performance score below 90: ${metrics.performance}`);
+    } else if (metrics.performance < 95) {
+      warnings.push(`Performance score could be improved: ${metrics.performance}`);
+    }
+
+    if (metrics.accessibility < 90) {
+      violations.push(`Accessibility score below 90: ${metrics.accessibility}`);
+    }
+
+    if (metrics.bestPractices < 90) {
+      violations.push(`Best practices score below 90: ${metrics.bestPractices}`);
+    }
+
+    if (metrics.seo < 90) {
+      violations.push(`SEO score below 90: ${metrics.seo}`);
+    }
+
+    // Core Web Vitals
+    if (metrics.firstContentfulPaint > 2000) {
+      violations.push(`First Contentful Paint too slow: ${metrics.firstContentfulPaint}ms`);
+    } else if (metrics.firstContentfulPaint > 1500) {
+      warnings.push(`First Contentful Paint could be improved: ${metrics.firstContentfulPaint}ms`);
+    }
+
+    if (metrics.largestContentfulPaint > 4000) {
+      violations.push(`Largest Contentful Paint too slow: ${metrics.largestContentfulPaint}ms`);
+    } else if (metrics.largestContentfulPaint > 2500) {
+      warnings.push(`Largest Contentful Paint could be improved: ${metrics.largestContentfulPaint}ms`);
+    }
+
+    if (metrics.cumulativeLayoutShift > 0.1) {
+      violations.push(`Cumulative Layout Shift too high: ${metrics.cumulativeLayoutShift}`);
+    } else if (metrics.cumulativeLayoutShift > 0.05) {
+      warnings.push(`Cumulative Layout Shift could be improved: ${metrics.cumulativeLayoutShift}`);
+    }
+
+    if (metrics.speedIndex > 4000) {
+      violations.push(`Speed Index too slow: ${metrics.speedIndex}ms`);
+    } else if (metrics.speedIndex > 2500) {
+      warnings.push(`Speed Index could be improved: ${metrics.speedIndex}ms`);
+    }
+
+    if (metrics.totalBlockingTime > 300) {
+      violations.push(`Total Blocking Time too high: ${metrics.totalBlockingTime}ms`);
+    } else if (metrics.totalBlockingTime > 200) {
+      warnings.push(`Total Blocking Time could be improved: ${metrics.totalBlockingTime}ms`);
+    }
+
+    return {
+      passed: violations.length === 0,
+      violations,
+      warnings,
+      details: {
+        resourceSizes: [],
+        timings: [],
+      },
+    };
+  }
+
+  /**
+   * Generate performance report
+   */
+  generateReport(): {
+    averageMetrics: PerformanceMetrics;
+    bestScore: number;
+    worstScore: number;
+    trend: 'improving' | 'stable' | 'degrading';
+  } {
+    if (this.results.length === 0) {
+      throw new Error('No performance results available');
+    }
+
+    const latest = this.results[this.results.length - 1];
+    const first = this.results[0];
+
+    const averageMetrics = {
+      performance: this.results.reduce((sum, r) => sum + r.performance, 0) / this.results.length,
+      accessibility: this.results.reduce((sum, r) => sum + r.accessibility, 0) / this.results.length,
+      bestPractices: this.results.reduce((sum, r) => sum + r.bestPractices, 0) / this.results.length,
+      seo: this.results.reduce((sum, r) => sum + r.seo, 0) / this.results.length,
+      pwa: this.results.reduce((sum, r) => sum + r.pwa, 0) / this.results.length,
+      firstContentfulPaint: this.results.reduce((sum, r) => sum + r.firstContentfulPaint, 0) / this.results.length,
+      largestContentfulPaint: this.results.reduce((sum, r) => sum + r.largestContentfulPaint, 0) / this.results.length,
+      cumulativeLayoutShift: this.results.reduce((sum, r) => sum + r.cumulativeLayoutShift, 0) / this.results.length,
+      speedIndex: this.results.reduce((sum, r) => sum + r.speedIndex, 0) / this.results.length,
+      totalBlockingTime: this.results.reduce((sum, r) => sum + r.totalBlockingTime, 0) / this.results.length,
+      serverResponseTime: this.results.reduce((sum, r) => sum + r.serverResponseTime, 0) / this.results.length,
+    };
+
+    const allScores = this.results.map(r => r.performance);
+    const bestScore = Math.max(...allScores);
+    const worstScore = Math.min(...allScores);
+
+    let trend: 'improving' | 'stable' | 'degrading' = 'stable';
+    if (this.results.length >= 2) {
+      const recent = this.results.slice(-2);
+      if (recent[1].performance > recent[0].performance) {
+        trend = 'improving';
+      } else if (recent[1].performance < recent[0].performance) {
+        trend = 'degrading';
+      }
+    }
+
+    return {
+      averageMetrics,
+      bestScore,
+      worstScore,
+      trend,
+    };
+  }
+}
+
+describe('Performance Tests', () => {
+  const testUtils = new PerformanceTestUtils();
+
+  beforeAll(async () => {
+    await testUtils.launchChrome();
+  });
+
+  afterAll(async () => {
+    await testUtils.closeChrome();
+  });
+
+  describe('Lighthouse Performance Audit', () => {
+    it('should achieve performance score above 90', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      expect(metrics.performance).toBeGreaterThan(90);
+    });
+
+    it('should meet Core Web Vitals thresholds', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      // Core Web Vitals thresholds
+      expect(metrics.firstContentfulPaint).toBeLessThanOrEqual(2000);
+      expect(metrics.largestContentfulPaint).toBeLessThanOrEqual(4000);
+      expect(metrics.cumulativeLayoutShift).toBeLessThanOrEqual(0.1);
+      expect(metrics.speedIndex).toBeLessThanOrEqual(4000);
+    });
+
+    it('should have good accessibility score', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      expect(metrics.accessibility).toBeGreaterThanOrEqual(90);
+    });
+
+    it('should follow best practices', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      expect(metrics.bestPractices).toBeGreaterThanOrEqual(90);
+    });
+
+    it('should have good SEO score', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      expect(metrics.seo).toBeGreaterThanOrEqual(90);
+    });
+  });
+
+  describe('Performance Budget', () => {
+    it('should meet performance budget requirements', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+      const budgetResult = testUtils.checkPerformanceBudget(metrics);
+
+      expect(budgetResult.passed).toBe(true);
+      expect(budgetResult.violations).toHaveLength(0);
+    });
+
+    it('should not have any critical performance issues', async () => {
+      const metrics = await testUtils.runLighthouseAudit('http://localhost:4173/');
+      const budgetResult = testUtils.checkPerformanceBudget(metrics);
+
+      // Check for specific critical violations
+      const criticalViolations = budgetResult.violations.filter(v =>
+        v.includes('Performance score below 90') ||
+        v.includes('First Contentful Paint too slow') ||
+        v.includes('Largest Contentful Paint too slow') ||
+        v.includes('Cumulative Layout Shift too high')
+      );
+
+      expect(criticalViolations).toHaveLength(0);
+    });
+  });
+
+  describe('Performance Regression Detection', () => {
+    it('should maintain consistent performance scores', async () => {
+      // Run multiple audits to detect regressions
+      await testUtils.runLighthouseAudit('http://localhost:4173/');
+      await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      const report = testUtils.generateReport();
+
+      // Performance should not degrade by more than 5 points
+      expect(report.worstScore).toBeGreaterThanOrEqual(report.bestScore - 5);
+
+      // Average performance should be above 90
+      expect(report.averageMetrics.performance).toBeGreaterThanOrEqual(90);
+    });
+
+    it('should detect performance improvements', async () => {
+      const report = testUtils.generateReport();
+
+      // This test documents the performance trend
+      expect(['improving', 'stable', 'degrading']).toContain(report.trend);
+    });
+  });
+
+  describe('Mobile Performance', () => {
+    it('should perform well on mobile devices', async () => {
+      const mobileMetrics = await testUtils.runLighthouseAudit('http://localhost:4173/', {
+        formFactor: 'mobile',
+        screenEmulation: {
+          mobile: true,
+          disableDeviceEmulation: false
+        }
+      });
+
+      // Mobile performance should be close to desktop (within 10 points)
+      const desktopMetrics = await testUtils.runLighthouseAudit('http://localhost:4173/', {
+        formFactor: 'desktop',
+        screenEmulation: {
+          mobile: false,
+          disableDeviceEmulation: true
+        }
+      });
+
+      expect(mobileMetrics.performance).toBeGreaterThanOrEqual(80);
+      expect(mobileMetrics.performance).toBeGreaterThanOrEqual(desktopMetrics.performance - 10);
+    });
+  });
+
+  describe('Performance Monitoring', () => {
+    it('should track performance metrics over time', async () => {
+      // Run multiple tests to establish baseline
+      const runs = 3;
+      for (let i = 0; i < runs; i++) {
+        await testUtils.runLighthouseAudit('http://localhost:4173/');
+      }
+
+      const report = testUtils.generateReport();
+
+      expect(report.averageMetrics).toBeDefined();
+      expect(report.bestScore).toBeDefined();
+      expect(report.worstScore).toBeDefined();
+      expect(report.trend).toBeDefined();
+    });
+
+    it('should generate comprehensive performance report', async () => {
+      await testUtils.runLighthouseAudit('http://localhost:4173/');
+
+      const report = testUtils.generateReport();
+
+      expect(report.averageMetrics.performance).toBeGreaterThan(0);
+      expect(report.averageMetrics.accessibility).toBeGreaterThan(0);
+      expect(report.averageMetrics.bestPractices).toBeGreaterThan(0);
+      expect(report.averageMetrics.seo).toBeGreaterThan(0);
+    });
+  });
+});

@@ -24,11 +24,8 @@ export default defineConfig(({ mode }) => {
           // Enable type checking in development
           tsconfigPath: 'tsconfig.json',
         },
-        // Enable eslint integration (when available)
-        eslint: {
-          // Use root .eslintrc.js
-          lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
-        },
+        // TypeScript checking only - ESLint disabled due to compatibility issues
+        // eslint integration can be added back when vite-plugin-checker supports ESLint 9+
       }),
     ],
 

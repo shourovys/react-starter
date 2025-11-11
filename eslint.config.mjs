@@ -31,13 +31,25 @@ export default tseslint.config([
 
   {
     rules: {
-      'no-unused-vars': 'off',
       'no-console': 'warn',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
+    },
+  },
+
+  // Test files configuration - disable unused variables
+  {
+    files: [
+      '**/*.test.{ts,tsx,js,jsx}',
+      '**/*.spec.{ts,tsx,js,jsx}',
+      '**/tests/**/*',
+    ],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 

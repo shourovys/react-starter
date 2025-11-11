@@ -1,0 +1,117 @@
+import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ThemeProvider } from '../../src/components/theme-provider';
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: vi.fn(),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+};
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+// Mock window.matchMedia
+const matchMediaMock = vi.fn().mockImplementation((query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: vi.fn(),
+  removeListener: vi.fn(),
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+}));
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: matchMediaMock,
+});
+
+describe('ThemeProvider', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    localStorageMock.getItem.mockReturnValue(null);
+  });
+
+  it('renders children correctly', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ThemeProvider>
+        <div data-testid="child">Test Child</div>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+  });
+
+  it('uses default theme when no stored value', async () => {
+    const user = userEvent.setup();
+    localStorageMock.getItem.mockReturnValue(null);
+
+    render(
+      <ThemeProvider defaultTheme="light">
+        <div data-testid="content">Content</div>
+      </ThemeProvider>
+    );
+
+    expect(screen.getByTestId('content')).toBeInTheDocument();
+  });
+
+  it('loads theme from localStorage when available', async () => {
+    const user = userEvent.setup();
+    localStorageMock.getItem.mockReturnValue('dark');
+
+    render(
+      <ThemeProvider defaultTheme="light">
+        <div data-testid="content">Content</div>
+      </ThemeProvider>
+    );
+
+    expect(localStorageMock.getItem).toHaveBeenCalledWith('vite-ui-theme');
+  });
+
+  it('applies theme class to document root', async () => {
+    const user = userEvent.setup();
+    const root = document.documentElement;
+
+    render(
+      <ThemeProvider defaultTheme="light">
+        <div>Content</div>
+      </ThemeProvider>
+    );
+
+    expect(root.classList.contains('light')).toBe(true);
+    expect(root.classList.contains('dark')).toBe(false);
+  });
+
+  it('handles system theme preference', async () => {
+    const user = userEvent.setup();
+
+    // Mock system theme as dark
+    matchMediaMock.mockImplementation((query: string) => ({
+      matches: query.includes('dark'),
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    render(
+      <ThemeProvider defaultTheme="system">
+        <div>Content</div>
+      </ThemeProvider>
+    );
+
+    // Should apply dark class when system prefers dark
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+  });
+});

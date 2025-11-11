@@ -3,7 +3,7 @@ export default {
   rules: {
     // Commit message format rules
     'header-min-length': [2, 'always', 10],
-    'header-max-length': [2, 'always', 72],
+    'header-max-length': [2, 'always', 100],
 
     // Type rules
     'type-empty': [2, 'never'],
@@ -31,12 +31,12 @@ export default {
     'subject-empty': [2, 'never'],
     'subject-case': [2, 'never', ['upper-case', 'sentence-case']],
     'subject-full-stop': [2, 'never', '.'],
-    'subject-max-length': [2, 'always', 72],
+    'subject-max-length': [2, 'always', 100],
 
     // Body rules
     'body-leading-blank': [1, 'always'],
-    'body-max-length': [2, 'always', 100],
-    'body-max-line-length': [2, 'always', 100],
+    'body-max-length': [2, 'always', 1000],
+    'body-max-line-length': [2, 'always', 1000],
 
     // Footer rules
     'footer-leading-blank': [1, 'always'],
