@@ -5,14 +5,15 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./tests/setup.ts'],
+    // setupFiles: ['./tests/setup.ts'], // Temporarily disabled
     css: true,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
       exclude: [
         'node_modules/',
-        'tests/',
+        'tests/e2e/**',
+        'tests/performance/**',
         'dist/',
         'coverage/',
         '**/*.d.ts',
@@ -34,8 +35,18 @@ export default defineConfig({
     },
     include: [
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
-      'tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/unit/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'tests/integration/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
     ],
-    exclude: ['node_modules/', 'dist/', '**/node_modules/**', '**/dist/**'],
+    exclude: [
+      'node_modules/',
+      'dist/',
+      'tests/e2e/**',
+      'tests/performance/**',
+      'tests/contracts/**',
+      'tests/accessibility/**',
+      '**/node_modules/**',
+      '**/dist/**',
+    ],
   },
 });

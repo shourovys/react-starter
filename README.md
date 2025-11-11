@@ -426,36 +426,151 @@ yarn test:a11y
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+We welcome contributions! This project follows modern development practices and quality standards. Please see our [Contributing Guidelines](CONTRIBUTING.md) for comprehensive details.
 
-### Development Setup
+### Quick Contribution Guide
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and validation
-5. Submit a pull request
+1. **Fork & Clone**
+
+   ```bash
+   git clone https://github.com/your-org/react-typescript-starter.git
+   cd react-typescript-starter
+   ```
+
+2. **Setup Development Environment**
+
+   ```bash
+   yarn install
+   yarn dev
+   ```
+
+3. **Create Feature Branch**
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+4. **Make Changes & Test**
+
+   ```bash
+   yarn validate  # Run all quality checks
+   yarn test:watch  # Run tests in watch mode
+   ```
+
+5. **Commit & Push**
+
+   ```bash
+   git add .
+   git commit -m "feat: add your feature description"
+   git push origin feature/your-feature-name
+   ```
+
+6. **Create Pull Request**
+   - Use the provided PR template
+   - Ensure all CI checks pass
+   - Add clear description of changes
 
 ### Commit Convention
 
-We use [Conventional Commits](https://conventionalcommits.org/):
+We strictly follow [Conventional Commits](https://conventionalcommits.org/):
 
-- `feat:` for new features
-- `fix:` for bug fixes
-- `docs:` for documentation changes
-- `style:` for formatting changes
-- `refactor:` for code refactoring
-- `test:` for test changes
-- `chore:` for maintenance changes
+- `feat:` - New features or functionality
+- `fix:` - Bug fixes and patches
+- `docs:` - Documentation changes
+- `style:` - Code formatting, styling changes
+- `refactor:` - Code refactoring without functionality changes
+- `test:` - Adding, updating, or fixing tests
+- `chore:` - Maintenance tasks, dependency updates
+- `perf:` - Performance improvements
+- `ci:` - CI/CD configuration changes
+- `build:` - Build system or dependencies
 
-### Code Style
+**Examples:**
 
-- Use TypeScript strict mode
-- Follow ESLint configuration
-- Use Prettier for formatting
-- Write meaningful commit messages
-- Add tests for new features
-- Update documentation
+```bash
+feat: add dark mode toggle component
+fix: resolve issue with theme persistence
+docs: update installation instructions
+test: add unit tests for user authentication
+chore: update TypeScript to latest version
+```
+
+### Development Standards
+
+#### Code Quality
+
+- **TypeScript Strict Mode**: All code must pass strict type checking
+- **ESLint**: Follow all configured linting rules
+- **Prettier**: Code formatting is enforced automatically
+- **Test Coverage**: Maintain >80% code coverage for new features
+- **Accessibility**: Ensure WCAG 2.1 Level AA compliance
+
+#### Testing Requirements
+
+- **Unit Tests**: Write tests for all new components and functions
+- **Integration Tests**: Test component interactions and hooks
+- **E2E Tests**: Add E2E tests for critical user workflows
+- **Accessibility Tests**: Include a11y tests for new UI components
+- **Performance Tests**: Consider Lighthouse impact for new features
+
+#### Code Review Process
+
+1. **Automated Checks**: All CI checks must pass (linting, tests, build)
+2. **Code Review**: At least one maintainer review required
+3. **Testing**: Feature must be tested in all major browsers
+4. **Documentation**: Update relevant documentation
+5. **Breaking Changes**: Major changes require additional review
+
+### Branch Strategy
+
+- `main` - Production-ready code
+- `develop` - Integration branch for features
+- `feature/feature-name` - Feature development
+- `fix/issue-description` - Bug fixes
+- `hotfix/critical-fix` - Critical production fixes
+
+### Issue & PR Guidelines
+
+#### Before Creating an Issue
+
+1. Check existing issues to avoid duplicates
+2. Use issue templates when provided
+3. Include reproduction steps for bugs
+4. Provide environment details (OS, browser, Node version)
+
+#### Before Creating a PR
+
+1. Ensure all tests pass locally
+2. Run `yarn validate` to check all quality gates
+3. Update documentation if needed
+4. Add or update tests
+5. Update CHANGELOG.md if applicable
+
+### Release Process
+
+- **Versioning**: Follow [Semantic Versioning](https://semver.org/)
+- **Releases**: Automated via GitHub Actions
+- **Changelog**: Generated from conventional commits
+- **Tags**: Version tags for releases
+
+### Getting Help
+
+- **Documentation**: Check our comprehensive docs in `/docs`
+- **Issues**: Search existing issues or create new ones
+- **Discussions**: Use GitHub Discussions for questions
+- **Slack**: Join our community workspace (link in bio)
+
+### Recognition
+
+Contributors are recognized in:
+
+- README.md contributors section
+- Release notes for significant contributions
+- Annual contributor highlights
+
+---
+
+**Questions?** Don't hesitate to ask! We're here to help you contribute successfully.
 
 ## 📚 Documentation
 
