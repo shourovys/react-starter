@@ -1,4 +1,6 @@
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { UserList } from '../../src/components/user-list';
 
 describe('UserList Component with MSW Integration', () => {

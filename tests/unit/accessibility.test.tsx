@@ -1,6 +1,8 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import { ThemeProvider } from '../../src/components/theme-provider';
 import { testComponentAccessibility } from '../utils/accessibility-test-utils';
+import { describe, expect, it } from 'vitest';
 
 describe('Accessibility Tests - Components', () => {
   it('ThemeProvider should be accessible', async () => {
