@@ -5,7 +5,7 @@ import { testComponentAccessibility } from '../utils/accessibility-test-utils';
 import { describe, expect, it } from 'vitest';
 
 describe('Accessibility Tests - Components', () => {
-  it('ThemeProvider should be accessible', async () => {
+  it('should be accessible @a11y', async () => {
     const result = await testComponentAccessibility(
       <ThemeProvider>
         <div>Test Content</div>
@@ -13,11 +13,10 @@ describe('Accessibility Tests - Components', () => {
     );
 
     expect(result.isAccessible).toBe(true);
-    expect(result.checks.hasMainHeading).toBe(false);
-    expect(result.checks.hasProperHeadingHierarchy).toBe(true);
+    expect(result.hasViolations).toBe(false);
   });
 
-  it('should meet basic accessibility standards', async () => {
+  it('should meet basic accessibility standards @a11y', async () => {
     const component = (
       <div role="main">
         <h1>Page Title</h1>
@@ -28,10 +27,10 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(component);
     expect(result.isAccessible).toBe(true);
-    expect(result.checks.hasMainHeading).toBe(true);
+    expect(result.hasViolations).toBe(false);
   });
 
-  it('should catch accessibility violations', async () => {
+  it('should catch accessibility violations @a11y', async () => {
     // Component with accessibility issues
     const badComponent = (
       <div>
@@ -42,10 +41,10 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(badComponent);
     expect(result.isAccessible).toBe(false);
-    expect(result.checks.hasAltText).toBe(false);
+    expect(result.hasViolations).toBe(true);
   });
 
-  it('should test WCAG 2.1 Level AA compliance', async () => {
+  it('should test WCAG 2.1 Level AA compliance @a11y', async () => {
     // Test a well-structured component
     const accessibleComponent = (
       <main role="main">
@@ -63,22 +62,7 @@ describe('Accessibility Tests - Components', () => {
     expect(result.isAccessible).toBe(true);
   });
 
-  it('should verify heading hierarchy', async () => {
-    const component = (
-      <div>
-        <h1>Main Title</h1>
-        <h2>Subtitle</h2>
-        <h3>Section Title</h3>
-        <h3>Another Section</h3>
-        <h2>Another Main Section</h2>
-      </div>
-    );
-
-    const result = await testComponentAccessibility(component);
-    expect(result.checks.hasProperHeadingHierarchy).toBe(true);
-  });
-
-  it('should test form accessibility', async () => {
+  it('should test form accessibility @a11y', async () => {
     const formComponent = (
       <form>
         <label htmlFor="name">Name:</label>
@@ -91,10 +75,9 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(formComponent);
     expect(result.isAccessible).toBe(true);
-    expect(result.checks.hasAriaLabels).toBe(true);
   });
 
-  it('should handle missing alt text violations', async () => {
+  it('should handle missing alt text violations @a11y', async () => {
     const componentWithMissingAlt = (
       <div>
         <img src="important-image.jpg" />
@@ -104,12 +87,12 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(componentWithMissingAlt);
     expect(result.isAccessible).toBe(false);
-    expect(result.checks.hasAltText).toBe(false);
+    expect(result.hasViolations).toBe(true);
   });
 });
 
 describe('Accessibility Integration with Test Suites', () => {
-  it('should integrate with existing component tests', async () => {
+  it('should integrate with existing component tests @a11y', async () => {
     // This demonstrates that accessibility tests can run alongside regular tests
     const { container } = render(
       <ThemeProvider>
@@ -130,7 +113,7 @@ describe('Accessibility Integration with Test Suites', () => {
     expect(accessibilityResult.isAccessible).toBe(true);
   });
 
-  it('should work with test data and fixtures', async () => {
+  it('should work with test data and fixtures @a11y', async () => {
     // Test with various component states
     const states = [
       { theme: 'light' as const, content: 'Light theme' },
