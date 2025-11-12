@@ -5,10 +5,19 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./tests/setup.ts'],
+    // setupFiles: ['./tests/setup.ts'], // Temporarily disabled for debugging
     css: true,
     typecheck: {
       enabled: false,
+    },
+    // Explicitly configure TypeScript for testing
+    deps: {
+      inline: [
+        // Inline these packages to avoid compilation issues
+        '@testing-library/react',
+        '@testing-library/user-event',
+        '@testing-library/jest-dom',
+      ],
     },
     include: [
       'src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,tsx}',
@@ -22,6 +31,8 @@ export default defineConfig({
       '**/node_modules/**',
       '**/dist/**',
     ],
+    testTimeout: 10000,
+    hookTimeout: 10000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

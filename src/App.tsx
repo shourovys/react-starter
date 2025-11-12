@@ -1,35 +1,43 @@
 import { ErrorBoundary } from '@/components/error-boundary';
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+
+// Import pages
+import AboutPage from '@/pages/about-page';
+import DashboardPage from '@/pages/dashboard-page';
+import HomePage from '@/pages/home-page';
+import NotFoundPage from '@/pages/not-found-page';
+
 import './App.css';
 
 function App() {
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-background font-sans antialiased flex flex-col">
-        <header className="border-b">
-          <div className="container mx-auto py-4">
-            <h1 className="text-2xl font-bold">React TypeScript Starter</h1>
-          </div>
-        </header>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router>
+          <div className="min-h-screen bg-background font-sans antialiased flex flex-col">
+            <Header />
 
-        <main className="flex-1">
-          <div className="container mx-auto py-6">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-semibold mb-4">Welcome!</h2>
-              <p className="text-gray-600">
-                This is the simplified version of the app for testing.
-              </p>
-            </div>
-          </div>
-        </main>
+            <main className="flex-1">
+              <ErrorBoundary>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </ErrorBoundary>
+            </main>
 
-        <footer className="border-t">
-          <div className="container mx-auto py-4">
-            <p className="text-sm text-gray-500">
-              © 2025 React TypeScript Starter
-            </p>
+            <Footer />
+
+            <Toaster />
           </div>
-        </footer>
-      </div>
+        </Router>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
