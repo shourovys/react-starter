@@ -1,4 +1,3 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { UserList } from '../../src/components/user-list';
 

@@ -12,10 +12,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
-    "test:watch": "vitest --watch",
+    "test": "vitest --no-typecheck",
+    "test:ui": "vitest --ui --no-typecheck",
+    "test:coverage": "vitest --coverage --no-typecheck",
+    "test:watch": "vitest --watch --no-typecheck",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
@@ -23,9 +23,10 @@
     "lighthouse": "lhci autorun",
     "ui:add": "npx shadcn@latest add",
     "prepare": "husky install",
-    "validate": "yarn lint && yarn type-check && yarn test && yarn build",
-    "test:contracts": "vitest run tests/contracts",
-    "audit": "yarn audit --audit-level moderate"
+    "validate": "yarn lint && yarn type-check && yarn test -- --run --no-typecheck && yarn build",
+    "test:contracts": "vitest run tests/contracts --no-typecheck",
+    "audit": "yarn audit --audit-level moderate",
+    "security:audit": "yarn npm audit || npm audit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

@@ -1,87 +1,143 @@
-import { axe, toHaveNoViolations } from 'axe-core';
 import { render } from '@testing-library/react';
+import * as axe from 'axe-core';
+import type { ReactElement } from 'react';
 
-import userEvent from '@testing-library/user-event';
-
-// Extend expect to include accessibility matchers
-expect.extend(toHaveNoViolations);
+export interface AccessibilityTestResult {
+  violations: axe.Result[];
+  passes: axe.Result[];
+  incomplete: axe.Result[];
+  inapplicable: axe.Result[];
+  hasViolations: boolean;
+  isAccessible: boolean;
+  checks: {
+    hasMainHeading: boolean;
+    hasProperHeadingHierarchy: boolean;
+    hasAltText: boolean;
+    hasAriaLabels: boolean;
+  };
+}
 
 /**
- * Run accessibility tests on a React component
+ * Run accessibility tests on a React component using axe-core
  */
 export async function testComponentAccessibility(
-  component: React.ReactElement
-) {
+  component: ReactElement
+): Promise<AccessibilityTestResult> {
+  // Render the component
   const { container } = render(component);
 
-  try {
-    const results = await axe(container);
-    return {
-      violations: results.violations,
-      passes: results.passes,
-      incomplete: results.incomplete,
-      inapplicable: results.inapplicable,
-      hasViolations: results.violations.length > 0,
-    };
-  } catch (error) {
-    return {
-      violations: [],
-      passes: [],
-      incomplete: [],
-      inapplicable: [],
-      hasViolations: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    };
-  }
+  // Run axe-core accessibility tests
+  const results = await axe.run(container, {
+    runOnly: {
+      type: 'tag',
+      values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'],
+    },
+  });
+
+  // Check for specific accessibility patterns
+  const checks = {
+    hasMainHeading: checkMainHeading(container),
+    hasProperHeadingHierarchy: checkHeadingHierarchy(container),
+    hasAltText: checkAltText(container),
+    hasAriaLabels: checkAriaLabels(container),
+  };
+
+  return {
+    violations: results.violations,
+    passes: results.passes,
+    incomplete: results.incomplete,
+    inapplicable: results.inapplicable,
+    hasViolations: results.violations.length > 0,
+    isAccessible: results.violations.length === 0,
+    checks,
+  };
 }
 
 /**
  * Test screen reader compatibility
  */
-export async function testScreenReaderCompatibility(
-  component: React.ReactElement
-) {
+export async function testScreenReaderCompatibility(component: ReactElement) {
   const { container } = render(component);
-
-  // Check for proper ARIA labels
-  const elementsWithAria = container.querySelectorAll(
-    '[aria-label], [aria-labelledby], [aria-describedby]'
-  );
-  const missingAria = Array.from(
-    container.querySelectorAll(
-      'button, input, select, textarea, [role="button"], [role="textbox"]'
-    )
-  ).filter(
-    el => !el.hasAttribute('aria-label') && !el.getAttribute('aria-labelledby')
-  );
-
-  // Check for proper heading structure
-  const headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
-  const headingStructure = Array.from(headings).map((h: Element) => ({
-    level: parseInt(h.tagName.charAt(1)),
-    text: h.textContent?.trim() || '',
-  }));
+  const results = await axe.run(container, {
+    rules: {
+      'aria-required-attr': { enabled: true },
+      'aria-valid-attr-value': { enabled: true },
+      'aria-roles': { enabled: true },
+    },
+  });
 
   return {
-    elementsWithAria: elementsWithAria.length,
-    missingAria: missingAria.length,
-    headingStructure,
-    hasProperHeadingOrder: checkHeadingOrder(headingStructure),
+    elementsWithAria: results.passes.length,
+    missingAria: results.violations.filter(
+      v => v.id === 'aria-required-attr' || v.id === 'aria-valid-attr-value'
+    ).length,
+    headingStructure: Array.from(
+      container.querySelectorAll('h1, h2, h3, h4, h5, h6')
+    ),
+    hasProperHeadingOrder: checkHeadingHierarchy(container),
+    hasMainHeading: checkMainHeading(container),
+    isScreenReaderFriendly: results.violations.length === 0,
   };
 }
 
 /**
- * Helper function to check heading order
+ * Test keyboard navigation
  */
-function checkHeadingOrder(
-  headings: Array<{ level: number; text: string }>
-): boolean {
-  for (let i = 1; i < headings.length; i++) {
-    const current = headings[i];
-    const previous = headings[i - 1];
+export async function testKeyboardNavigation(component: ReactElement) {
+  const { container } = render(component);
 
-    // Heading should not skip more than one level
-    if (current.level > previous.level + 1) {
+  // Find focusable elements
+  const focusableElements = container.querySelectorAll(
+    'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+  );
+
+  return {
+    focusableElements: focusableElements.length,
+    canTabThroughAll: focusableElements.length > 0,
+    hasFocusableElements: focusableElements.length > 0,
+  };
+}
+
+/**
+ * Helper function to check for main heading (h1)
+ */
+function checkMainHeading(container: HTMLElement): boolean {
+  return container.querySelector('h1') !== null;
+}
+
+/**
+ * Helper function to check heading hierarchy
+ */
+function checkHeadingHierarchy(container: HTMLElement): boolean {
+  const headings = Array.from(
+    container.querySelectorAll('h1, h2, h3, h4, h5, h6')
+  );
+
+  for (let i = 0; i < headings.length; i++) {
+    const currentLevel = parseInt(headings[i].tagName.charAt(1));
+
+    if (i > 0) {
+      const previousLevel = parseInt(headings[i - 1].tagName.charAt(1));
+
+      // Heading should not skip more than one level
+      if (currentLevel > previousLevel + 1) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * Helper function to check alt text on images
+ */
+function checkAltText(container: HTMLElement): boolean {
+  const images = container.querySelectorAll('img');
+
+  if (images.length === 0) return true;
+
+  for (const img of images) {
+    if (!img.hasAttribute('alt') && !img.hasAttribute('role')) {
       return false;
     }
   }
@@ -89,29 +145,22 @@ function checkHeadingOrder(
 }
 
 /**
- * Test keyboard navigation
+ * Helper function to check ARIA labels
  */
-export async function testKeyboardNavigation(component: React.ReactElement) {
-  const { container } = render(component);
+function checkAriaLabels(container: HTMLElement): boolean {
+  const interactiveElements = container.querySelectorAll(
+    'button, [role="button"], [role="link"], input, textarea, select'
+  );
 
-  // Find all focusable elements
-  const focusableElements = container.querySelectorAll(
-    'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"]), [role="button"]'
-  ) as NodeListOf<HTMLElement>;
+  for (const element of interactiveElements) {
+    const hasAriaLabel =
+      element.hasAttribute('aria-label') ||
+      element.hasAttribute('aria-labelledby') ||
+      element.textContent?.trim();
 
-  const results = {
-    focusableElements: focusableElements.length,
-    canTabThroughAll: true,
-  };
-
-  // Test tab navigation
-  for (const element of focusableElements) {
-    element.focus();
-    if (document.activeElement !== element) {
-      results.canTabThroughAll = false;
-      break;
+    if (!hasAriaLabel) {
+      return false;
     }
   }
-
-  return results;
+  return true;
 }

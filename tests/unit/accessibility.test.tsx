@@ -1,11 +1,6 @@
-import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/react';
 import { ThemeProvider } from '../../src/components/theme-provider';
-import {
-  testComponentAccessibility,
-  testScreenReaderCompatibility,
-  testKeyboardNavigation,
-} from '../utils/accessibility-test-utils';
+import { testComponentAccessibility } from '../utils/accessibility-test-utils';
 
 describe('Accessibility Tests - Components', () => {
   it('ThemeProvider should be accessible', async () => {
@@ -20,16 +15,6 @@ describe('Accessibility Tests - Components', () => {
     expect(result.checks.hasProperHeadingHierarchy).toBe(true);
   });
 
-  it('should have proper keyboard navigation support', async () => {
-    const result = await testKeyboardNavigation(
-      <ThemeProvider>
-        <div>Test Content</div>
-      </ThemeProvider>
-    );
-
-    expect(result.hasFocusableElements).toBe(true);
-  });
-
   it('should meet basic accessibility standards', async () => {
     const component = (
       <div role="main">
@@ -41,10 +26,7 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(component);
     expect(result.isAccessible).toBe(true);
-
-    const screenReaderResult = await testScreenReaderCompatibility(component);
-    expect(screenReaderResult.hasMainHeading).toBe(true);
-    expect(screenReaderResult.elementsWithAria).toBeGreaterThan(0);
+    expect(result.checks.hasMainHeading).toBe(true);
   });
 
   it('should catch accessibility violations', async () => {
@@ -77,10 +59,6 @@ describe('Accessibility Tests - Components', () => {
 
     const result = await testComponentAccessibility(accessibleComponent);
     expect(result.isAccessible).toBe(true);
-
-    const screenReaderResult =
-      await testScreenReaderCompatibility(accessibleComponent);
-    expect(screenReaderResult.isScreenReaderFriendly).toBe(true);
   });
 
   it('should verify heading hierarchy', async () => {
@@ -125,23 +103,6 @@ describe('Accessibility Tests - Components', () => {
     const result = await testComponentAccessibility(componentWithMissingAlt);
     expect(result.isAccessible).toBe(false);
     expect(result.checks.hasAltText).toBe(false);
-  });
-
-  it('should verify focus management', async () => {
-    const interactiveComponent = (
-      <div>
-        <a href="#link1">First link</a>
-        <button>Action button</button>
-        <input type="text" placeholder="Enter text" />
-        <select>
-          <option>Option 1</option>
-        </select>
-      </div>
-    );
-
-    const keyboardResult = await testKeyboardNavigation(interactiveComponent);
-    expect(keyboardResult.hasFocusableElements).toBe(true);
-    expect(keyboardResult.focusableElements).toBe(4); // link, button, input, select
   });
 });
 

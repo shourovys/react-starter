@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+console.log('example test file loaded');
 
 describe('Example Test', () => {
   it('should pass basic test', () => {

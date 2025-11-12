@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import { describe, expect, it } from 'vitest';
 
 describe('Basic Test', () => {
   it('should pass basic math test', () => {

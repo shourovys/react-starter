@@ -43,10 +43,29 @@ export default defineConfig(({ mode }) => {
       // Rollup options
       rollupOptions: {
         output: {
-          // Code splitting optimization
-          manualChunks: {
-            // Vendor chunk
-            vendor: ['react', 'react-dom'],
+          // Improved code splitting optimization
+          manualChunks: id => {
+            if (id.includes('node_modules')) {
+              // Separate large libraries into their own chunks
+              if (
+                id.includes('react') ||
+                id.includes('react-dom') ||
+                id.includes('react-router')
+              ) {
+                return 'react-vendor';
+              }
+              if (id.includes('@radix-ui') || id.includes('lucide-react')) {
+                return 'ui-vendor';
+              }
+              if (
+                id.includes('tailwindcss') ||
+                id.includes('clsx') ||
+                id.includes('class-variance-authority')
+              ) {
+                return 'styles-vendor';
+              }
+              return 'vendor';
+            }
           },
 
           // File names with hashes
