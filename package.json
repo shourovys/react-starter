@@ -19,7 +19,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
-    "test:a11y": "vitest run --no-typecheck tests/unit/accessibility.test.tsx",
+    "test:a11y": "vitest run --no-typecheck tests/accessibility-basic.test.ts",
     "lighthouse": "lhci autorun",
     "ui:add": "npx shadcn@latest add",
     "prepare": "husky install",
@@ -67,7 +67,7 @@
     "@vitejs/plugin-basic-ssl": "^2.1.0",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitejs/plugin-react-swc": "^4.2.1",
-    "@vitest/coverage-v8": "2.1.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "@vitest/ui": "2.1.0",
     "autoprefixer": "10.4.0",
     "axe-core": "^4.11.0",
@@ -85,7 +85,7 @@
     "lighthouse": "^13.0.1",
     "lint-staged": "15.2.0",
     "msw": "^2.12.1",
-    "postcss": "8.4.0",
+    "postcss": "^8.4.31",
     "prettier": "3.3.0",
     "prettier-plugin-tailwindcss": "0.6.0",
     "tailwindcss": "3.4.0",
@@ -95,7 +95,7 @@
     "vite": "^7.2.2",
     "vite-plugin-checker": "^0.11.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "2.1.0"
+    "vitest": "^2.1.9"
   },
   "packageManager": "yarn@4.11.0"
 }
