@@ -4,10 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // Import pages
-import AboutPage from '@/pages/about-page';
-import { DashboardPage } from '@/features/dashboard';
-import HomePage from '@/pages/home-page';
-import NotFoundPage from '@/pages/not-found-page';
+import { AboutPage, DashboardPage, HomePage, NotFoundPage } from '@/pages';
 
 export function AppRouter() {
   return (

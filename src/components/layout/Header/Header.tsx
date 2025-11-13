@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import useUIStore from '@/store/ui-store';
+import { uiStore as useUIStore } from '@/store';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '@/components/common/ThemeProvider';
 

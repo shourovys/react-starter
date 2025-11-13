@@ -1,4 +1,5 @@
 // Page components
-export { default as AboutPage } from './about-page';
-export { default as HomePage } from './home-page';
-export { default as NotFoundPage } from './not-found-page';
+export { default as AboutPage } from './AboutPage/AboutPage';
+export { default as HomePage } from './HomePage/HomePage';
+export { default as DashboardPage } from './DashboardPage/DashboardPage';
+export { default as NotFoundPage } from './NotFoundPage/NotFoundPage';

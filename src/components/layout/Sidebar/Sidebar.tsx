@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import useUIStore from '@/store/ui-store';
+import { uiStore as useUIStore } from '@/store';
 import { Link, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
