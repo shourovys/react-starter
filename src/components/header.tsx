@@ -63,6 +63,7 @@ export function Header() {
                 variant={item.current ? 'secondary' : 'ghost'}
                 size="sm"
                 className="text-sm font-medium"
+                data-testid={`nav-${item.name.toLowerCase()}`}
               >
                 {item.name}
               </Button>
@@ -109,6 +110,7 @@ export function Header() {
                 <Button
                   variant={item.current ? 'secondary' : 'ghost'}
                   className="w-full justify-start text-sm font-medium"
+                  data-testid={`nav-mobile-${item.name.toLowerCase()}`}
                 >
                   {item.name}
                 </Button>

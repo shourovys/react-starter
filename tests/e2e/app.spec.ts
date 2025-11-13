@@ -27,10 +27,8 @@ test.describe('Application E2E Tests', () => {
     // Wait for page to load completely
     await page.waitForTimeout(1000);
 
-    // Find theme toggle button with more flexible selectors
-    const themeToggle = page.locator(
-      'header button:has(svg), button:has([data-lucide]), [aria-label*="theme"]'
-    );
+    // Find theme toggle button with reliable data-testid selector
+    const themeToggle = page.locator('[data-testid="theme-toggle"]');
     await expect(themeToggle).toBeVisible({ timeout: 10000 });
 
     // Get initial theme class
@@ -57,23 +55,19 @@ test.describe('Application E2E Tests', () => {
 
   test('should navigate between pages', async ({ page }) => {
     // Test navigation to About page
-    const aboutLink = page.locator(
-      'a[href="/about"], button:has-text("About")'
-    );
+    const aboutLink = page.locator('[data-testid="nav-about"]');
     await expect(aboutLink).toBeVisible();
     await aboutLink.click();
     await expect(page).toHaveURL(/.*\/about/);
 
     // Test navigation to Dashboard page
-    const dashboardLink = page.locator(
-      'a[href="/dashboard"], button:has-text("Dashboard")'
-    );
+    const dashboardLink = page.locator('[data-testid="nav-dashboard"]');
     await expect(dashboardLink).toBeVisible();
     await dashboardLink.click();
     await expect(page).toHaveURL(/.*\/dashboard/);
 
     // Test navigation back to Home page
-    const homeLink = page.locator('a[href="/"], button:has-text("Home")');
+    const homeLink = page.locator('[data-testid="nav-home"]');
     await expect(homeLink).toBeVisible();
     await homeLink.click();
     await expect(page).toHaveURL('/');
@@ -133,8 +127,8 @@ test.describe('Application E2E Tests', () => {
   test('should handle 404 gracefully', async ({ page }) => {
     // Test 404 handling
     await page.goto('/non-existent-page');
-    await expect(page.locator('h1, h2, h3')).toContainText(
-      /404|Not Found|React TypeScript Starter/
+    await expect(page.locator('[data-testid="not-found-title"]')).toContainText(
+      /404|Not Found|Page Not Found/
     );
   });
 
