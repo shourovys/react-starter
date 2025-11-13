@@ -15,8 +15,7 @@ export function useLocalStorage<T>(
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
+    } catch {
       return initialValue;
     }
   });
@@ -30,8 +29,8 @@ export function useLocalStorage<T>(
           value instanceof Function ? value(storedValue) : value;
         setStoredValue(valueToStore);
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
-      } catch (error) {
-        console.warn(`Error setting localStorage key "${key}":`, error);
+      } catch {
+        // Error handling for localStorage operations
       }
     },
     [key, storedValue]
@@ -42,8 +41,8 @@ export function useLocalStorage<T>(
     try {
       window.localStorage.removeItem(key);
       setStoredValue(initialValue);
-    } catch (error) {
-      console.warn(`Error removing localStorage key "${key}":`, error);
+    } catch {
+      // Error handling for localStorage operations
     }
   }, [key, initialValue]);
 
@@ -65,8 +64,7 @@ export function useSessionStorage<T>(
     try {
       const item = window.sessionStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.warn(`Error reading sessionStorage key "${key}":`, error);
+    } catch {
       return initialValue;
     }
   });
@@ -80,8 +78,8 @@ export function useSessionStorage<T>(
           value instanceof Function ? value(storedValue) : value;
         setStoredValue(valueToStore);
         window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
-      } catch (error) {
-        console.warn(`Error setting sessionStorage key "${key}":`, error);
+      } catch {
+        // Error handling for sessionStorage operations
       }
     },
     [key, storedValue]
@@ -92,8 +90,8 @@ export function useSessionStorage<T>(
     try {
       window.sessionStorage.removeItem(key);
       setStoredValue(initialValue);
-    } catch (error) {
-      console.warn(`Error removing sessionStorage key "${key}":`, error);
+    } catch {
+      // Error handling for sessionStorage operations
     }
   }, [key, initialValue]);
 

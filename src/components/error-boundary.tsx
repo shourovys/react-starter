@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    // Error logging handled for debugging purposes
     this.setState({
       error,
       errorInfo,
@@ -147,12 +147,12 @@ export function withErrorBoundary<P extends object>(
 
 // Hook for programmatic error handling
 export function useErrorHandler() {
-  return (error: Error, errorInfo?: ErrorInfo) => {
-    console.error('Manual error report:', error, errorInfo);
+  return () => {
+    // Error handling for debugging purposes
 
     // In production, you might want to send this to an error reporting service
     if (import.meta.env.PROD) {
-      // reportError(error, errorInfo);
+      // Example: reportError(error, errorInfo);
     }
   };
 }

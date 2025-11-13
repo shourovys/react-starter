@@ -116,8 +116,6 @@ describe('useLocalStorage Hook', () => {
       throw new Error('localStorage error');
     });
 
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
     const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
@@ -127,9 +125,7 @@ describe('useLocalStorage Hook', () => {
     });
 
     expect(result.current[0]).toBe('new-value'); // State still updates even if localStorage fails
-    expect(consoleSpy).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+    expect(localStorageMock.setItem).toHaveBeenCalled();
   });
 
   it('should handle localStorage getItem errors gracefully', () => {
@@ -137,15 +133,11 @@ describe('useLocalStorage Hook', () => {
       throw new Error('localStorage get error');
     });
 
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
     const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
     expect(result.current[0]).toBe('initial-value');
-    expect(consoleSpy).toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+    expect(localStorageMock.getItem).toHaveBeenCalled();
   });
 });

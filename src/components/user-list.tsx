@@ -19,8 +19,7 @@ export function UserList() {
         const data = await response.json();
         setUsers(data);
         setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
+      } catch {
         setError('Failed to fetch users');
         setLoading(false);
       }
