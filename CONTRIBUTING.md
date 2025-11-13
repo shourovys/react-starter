@@ -1,496 +1,380 @@
-# Contributing to React TypeScript Starter
+# Contributing Guidelines
 
-First off, thank you for considering contributing to React TypeScript Starter! It's people like you that make this project better.
+Welcome to the React TypeScript Starter project! We're excited to have you contribute. This document outlines the processes and standards we follow to maintain high-quality code and a welcoming community.
 
-## Code of Conduct
+## 📋 Table of Contents
 
-By participating in this project, you are expected to uphold our Code of Conduct:
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Code Standards](#code-standards)
+- [Testing Requirements](#testing-requirements)
+- [Commit Guidelines](#commit-guidelines)
+- [Pull Request Process](#pull-request-process)
+- [Issue Guidelines](#issue-guidelines)
+- [Documentation](#documentation)
 
-- **Be respectful and inclusive** - Treat all community members with respect
-- **Be collaborative** - Help others learn and grow
-- **Be constructive** - Provide helpful feedback and suggestions
-- **Be patient** - Remember that everyone is learning
-- **Focus on what's best for the community** - Consider the impact of your actions
+## 🤝 Code of Conduct
 
-## Getting Started
+This project follows a code of conduct to ensure a welcoming environment for all contributors. By participating, you agree to:
+
+- Be respectful and inclusive
+- Focus on constructive feedback
+- Accept responsibility for mistakes
+- Show empathy towards other contributors
+- Help create a positive community
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
+- Node.js 18.0.0 or higher
+- npm 8.0.0 or higher (or yarn)
+- Git
 
-- **Node.js 18+** - Latest LTS version recommended
-- **Yarn** - Package manager (preferred) or npm
-- **Git** - For version control
-- **VS Code** - Recommended IDE with our extensions
+### Setup
 
-### Development Setup
-
-1. **Fork and Clone**
+1. **Fork and clone the repository**
 
    ```bash
-   # Fork the repository on GitHub, then clone your fork
-   git clone https://github.com/your-username/react-typescript-starter.git
+   git clone https://github.com/your-org/react-typescript-starter.git
    cd react-typescript-starter
    ```
 
-2. **Add Upstream Remote**
+2. **Install dependencies**
 
    ```bash
-   git remote add upstream https://github.com/original-org/react-typescript-starter.git
+   npm install
    ```
 
-3. **Install Dependencies**
+3. **Set up environment**
 
    ```bash
-   yarn install
+   cp .env.example .env
    ```
 
-4. **Start Development Server**
-
+4. **Start development**
    ```bash
-   yarn dev
+   npm run dev
    ```
 
-5. **Run Quality Checks**
-   ```bash
-   yarn validate
-   ```
+## 🔄 Development Workflow
 
-## Development Workflow
+### 1. Choose an Issue
 
-### Branch Strategy
+- Check the [Issues](https://github.com/your-org/react-typescript-starter/issues) page
+- Look for issues labeled `good first issue` or `help wanted`
+- Comment on the issue to indicate you're working on it
 
-We use a simplified Git Flow:
-
-- `main` - Production-ready code (protected)
-- `develop` - Integration branch for features
-- `feature/feature-name` - Feature development
-- `fix/issue-description` - Bug fixes
-- `hotfix/critical-fix` - Critical production fixes
-
-### Making Changes
-
-1. **Create Feature Branch**
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   # or for fixes:
-   git checkout - fix/bug-description
-   ```
-
-2. **Make Your Changes**
-
-   - Follow our coding standards
-   - Write tests for new functionality
-   - Update documentation as needed
-
-3. **Test Your Changes**
-
-   ```bash
-   # Run all quality checks
-   yarn validate
-
-   # Run tests in watch mode during development
-   yarn test:watch
-
-   # Test specific components
-   yarn test src/components/your-component
-   ```
-
-4. **Commit Changes**
-
-   ```bash
-   git add .
-   git commit -m "feat: add your feature description"
-   ```
-
-5. **Push and Create PR**
-   ```bash
-   git push origin feature/your-feature-name
-   # Then create a pull request on GitHub
-   ```
-
-## Commit Convention
-
-We follow [Conventional Commits](https://conventionalcommits.org/) strictly:
-
-### Commit Types
-
-- **feat**: A new feature or functionality
-- **fix**: A bug fix or patch
-- **docs**: Documentation changes only
-- **style**: Code formatting, styling changes (no logic changes)
-- **refactor**: Code refactoring without functionality changes
-- **test**: Adding, updating, or fixing tests
-- **chore**: Maintenance tasks, dependency updates
-- **perf**: Performance improvements
-- **ci**: CI/CD configuration changes
-- **build**: Build system or dependencies
-
-### Commit Format
-
-```
-type(scope): description
-
-[optional body]
-
-[optional footer]
-```
-
-### Examples
+### 2. Create a Branch
 
 ```bash
-# Features
-feat(auth): add user login component
-feat(ui): implement dark mode toggle
-feat(api): add user profile endpoints
+# Create and switch to a feature branch
+git checkout -b feature/your-feature-name
 
-# Bug fixes
-fix(auth): resolve login redirect issue
-fix(ui): fix button alignment on mobile
-fix(api): handle null user data
-
-# Documentation
-docs(readme): update installation instructions
-docs(api): add authentication examples
-
-# Other changes
-refactor(auth): simplify user validation logic
-test(auth): add unit tests for login form
-chore: update TypeScript to 5.7
+# Or for bug fixes
+git checkout -b fix/issue-description
 ```
 
-## Coding Standards
+### 3. Make Changes
+
+- Write clear, focused commits
+- Test your changes thoroughly
+- Follow the code standards below
+- Update documentation if needed
+
+### 4. Run Quality Checks
+
+```bash
+# Run all validation checks
+npm run validate
+
+# Or run individual checks
+npm run lint
+npm run type-check
+npm run test
+npm run build
+```
+
+### 5. Commit and Push
+
+```bash
+git add .
+git commit -m "feat: add your feature description"
+git push origin feature/your-feature-name
+```
+
+### 6. Create Pull Request
+
+- Use the pull request template
+- Provide a clear description of changes
+- Link to related issues
+- Request review from maintainers
+
+## 📏 Code Standards
 
 ### TypeScript
 
 - **Strict Mode**: All code must pass strict TypeScript checking
-- **Types First**: Define interfaces and types before implementation
-- **No any**: Use specific types or `unknown` when necessary
-- **Descriptive Names**: Use clear, descriptive variable and function names
+- **Type Safety**: Avoid `any` types; use proper type definitions
+- **Interfaces**: Prefer interfaces over type aliases for object shapes
+- **Generics**: Use generics for reusable components and functions
 
-### Code Style
+### React
 
-- **ESLint**: Follow all configured linting rules
-- **Prettier**: Code formatting is enforced automatically
-- **Function Components**: Use functional components with hooks
+- **Functional Components**: Use function components with hooks
 - **Custom Hooks**: Extract reusable logic into custom hooks
-- **Component Structure**: Follow the established component structure
+- **Props Interface**: Define props interfaces for all components
+- **Default Props**: Use default parameters instead of defaultProps
 
-### File Organization
+### Naming Conventions
+
+- **Components**: PascalCase (e.g., `UserProfile`)
+- **Files**: kebab-case for components (e.g., `user-profile.tsx`)
+- **Hooks**: camelCase with `use` prefix (e.g., `useUserData`)
+- **Types**: PascalCase with descriptive names (e.g., `UserProfileProps`)
+
+### File Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── ui/             # shadcn/ui components
-│   ├── your-component.tsx
-│   └── index.ts        # Barrel exports
-├── pages/              # Page-level components
-├── hooks/              # Custom React hooks
-├── lib/                # Utility functions
-├── types/              # TypeScript type definitions
-├── services/           # API services
-├── store/              # State management
-└── config/             # Configuration files
+├── features/          # Feature-based organization
+│   └── auth/
+│       ├── components/
+│       ├── hooks/
+│       ├── services/
+│       ├── types/
+│       └── __tests__/
+├── components/        # Shared components
+│   ├── ui/           # Base UI components
+│   ├── layout/       # Layout components
+│   └── common/       # Common utilities
+└── pages/            # Page components with co-located tests
 ```
 
-## Testing Requirements
+## 🧪 Testing Requirements
 
 ### Test Coverage
 
-- **Target**: >80% code coverage
-- **New Features**: Must include tests
-- **Bug Fixes**: Include regression tests
-- **Critical Paths**: >90% coverage required
+- **Target**: Maintain >80% code coverage
+- **Unit Tests**: Required for all new functions and components
+- **Integration Tests**: Required for component interactions
+- **E2E Tests**: Required for critical user workflows
 
-### Test Types
+### Testing Guidelines
 
-#### Unit Tests (70% of tests)
+- **Test Files**: Co-locate with source files (e.g., `Component.test.tsx`)
+- **Test Names**: Describe behavior, not implementation
+- **Mocking**: Use MSW for API calls, Vitest mocks for utilities
+- **Accessibility**: Include accessibility tests for UI components
 
-- Individual components and functions
-- Utility functions and helpers
-- Custom hooks logic
-- API service functions
+### Example Test Structure
 
 ```typescript
-// Example unit test structure
-describe('YourComponent', () => {
-  it('should render correctly', () => {
-    render(<YourComponent />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { UserProfile } from './UserProfile';
+
+describe('UserProfile', () => {
+  it('displays user name', () => {
+    render(<UserProfile user={{ name: 'John Doe' }} />);
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
-  it('should handle user interactions', async () => {
-    const user = userEvent.setup();
-    render(<YourComponent />);
-    await user.click(screen.getByRole('button'));
-    expect(mockFunction).toHaveBeenCalled();
+  it('handles loading state', () => {
+    render(<UserProfile loading />);
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 });
 ```
 
-#### Integration Tests (20% of tests)
+## 📝 Commit Guidelines
 
-- Component interactions
-- Hook integrations
-- State management
-- API integrations
+We use [Conventional Commits](https://conventionalcommits.org/) for consistent commit messages:
 
-#### E2E Tests (10% of tests)
+### Format
 
-- Critical user workflows
-- Cross-browser compatibility
-- Accessibility flows
-- Performance testing
+```
+<type>[optional scope]: <description>
 
-### Test Commands
+[optional body]
 
-```bash
-# Run all tests
-yarn test
-
-# Watch mode for development
-yarn test:watch
-
-# Coverage report
-yarn test:coverage
-
-# Run specific test file
-yarn test YourComponent.test.tsx
-
-# Run E2E tests
-yarn test:e2e
-
-# Run accessibility tests
-yarn test:a11y
+[optional footer(s)]
 ```
 
-## Accessibility Requirements
+### Types
 
-### WCAG 2.1 Level AA Compliance
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
 
-All new features must meet accessibility standards:
-
-- **Keyboard Navigation**: All functionality accessible via keyboard
-- **Screen Reader Support**: Proper ARIA labels and roles
-- **Color Contrast**: Meet 4.5:1 ratio for normal text
-- **Focus Management**: Clear focus indicators and logical tab order
-- **Alternative Text**: All images must have alt text
-
-### Testing Accessibility
+### Examples
 
 ```bash
-# Automated accessibility tests
-yarn test:a11y
-
-# Manual testing checklist
-# - Navigate with Tab key only
-# - Test with screen reader (NVDA, JAWS, VoiceOver)
-# - Verify color contrast with tools
-# - Test with high contrast mode
+feat: add dark mode toggle
+fix: resolve memory leak in UserList component
+docs: update installation instructions
+test: add unit tests for authentication service
+chore: update dependencies
 ```
 
-## Performance Standards
+### Scope (Optional)
 
-### Core Web Vitals
-
-- **Largest Contentful Paint (LCP)**: < 2.5s
-- **First Input Delay (FID)**: < 100ms
-- **Cumulative Layout Shift (CLS)**: < 0.1
-
-### Performance Guidelines
-
-- **Bundle Size**: Keep bundle size under 500KB
-- **Code Splitting**: Use lazy loading for routes
-- **Image Optimization**: Use appropriate formats and sizes
-- **Tree Shaking**: Remove unused code
-- **Caching**: Implement proper caching strategies
-
-### Performance Testing
+Add scope for more specific commits:
 
 ```bash
-# Run Lighthouse CI
-yarn lighthouse
-
-# Analyze bundle size
-yarn build --analyze
+feat(auth): add OAuth login support
+fix(ui): resolve button styling issue
 ```
 
-## Pull Request Process
+## 🔄 Pull Request Process
 
-### Before Submitting
+### Before Creating a PR
 
-1. **Run Quality Checks**
-
-   ```bash
-   yarn validate
-   ```
-
-2. **Update Documentation**
-
-   - Update README if needed
-   - Add JSDoc comments for new functions
-   - Update API documentation
-
-3. **Check Tests**
-
-   - All tests must pass
-   - Add tests for new functionality
-   - Maintain coverage requirements
-
-4. **Update Changelog**
-   - Add entry to CHANGELOG.md (if exists)
-   - Follow the same commit convention
+1. **Update your branch** with the latest changes from main
+2. **Run all quality checks** locally
+3. **Write/update tests** for your changes
+4. **Update documentation** if needed
+5. **Test in multiple browsers** if UI changes
 
 ### PR Template
 
-Use our [pull request template](./.github/pull_request_template.md):
+Use the provided PR template with:
 
-- **Description**: Clear description of changes
-- **Type**: Feature, bug fix, or documentation
-- **Testing**: How the changes were tested
-- **Screenshots**: For UI changes
-- **Checklist**: Completion verification
+- Clear title following commit conventions
+- Description of changes and rationale
+- Screenshots for UI changes
+- Testing instructions
+- Related issue links
 
 ### Review Process
 
-1. **Automated Checks**: All CI checks must pass
+1. **Automated Checks**: CI must pass all checks
 2. **Code Review**: At least one maintainer review
-3. **Testing**: Reviewer tests the changes
-4. **Documentation**: Verify documentation is updated
-5. **Final Approval**: All requirements met
+3. **Testing**: Changes tested in target environments
+4. **Approval**: Maintainers approve and merge
 
-### Merge Requirements
+### PR Size Guidelines
 
-- All CI checks passing
-- At least one approval
-- No unresolved conversations
-- Up-to-date with base branch
-- Changelog updated (if applicable)
+- **Small**: < 200 lines - Quick review
+- **Medium**: 200-500 lines - Standard review
+- **Large**: > 500 lines - May need splitting
 
-## Issue Guidelines
+## 🐛 Issue Guidelines
 
-### Before Creating an Issue
+### Bug Reports
 
-1. **Search Existing Issues** - Avoid duplicates
-2. **Check Documentation** - May already be documented
-3. **Reproduce the Issue** - Ensure it's reproducible
-4. **Check Recent Commits** - May already be fixed
+**Required Information:**
 
-### Issue Templates
+- Clear title describing the issue
+- Steps to reproduce
+- Expected vs. actual behavior
+- Environment details (OS, browser, Node version)
+- Screenshots if applicable
 
-Use our issue templates:
-
-- **Bug Report**: For bugs and errors
-- **Feature Request**: For new features
-- **Documentation**: For docs improvements
-- **Question**: For questions and support
-
-### Bug Report Template
+**Template:**
 
 ```markdown
-**Describe the Bug**
-A clear description of the bug.
+## Bug Report
 
-**To Reproduce**
-Steps to reproduce the behavior:
+**Description:**
+Brief description of the bug
+
+**Steps to Reproduce:**
 
 1. Go to '...'
-2. Click on '....'
+2. Click on '...'
 3. See error
 
-**Expected Behavior**
-What you expected to happen.
+**Expected Behavior:**
+What should happen
 
-**Screenshots**
-If applicable, add screenshots.
+**Actual Behavior:**
+What actually happens
 
 **Environment:**
 
-- OS: [e.g. iOS]
-- Browser: [e.g. Chrome]
-- Version: [e.g. 91]
-- Node.js: [e.g. 18.x.x]
-- Package Manager: [e.g. yarn]
+- OS: [e.g., Windows 10]
+- Browser: [e.g., Chrome 91]
+- Node Version: [e.g., 18.0.0]
 ```
 
-## Release Process
+### Feature Requests
 
-### Version Numbering
+**Required Information:**
 
-We follow [Semantic Versioning](https://semver.org/):
+- Clear title for the feature
+- Detailed description of the proposed feature
+- Use case and rationale
+- Mockups or examples if applicable
 
-- **Major (X.0.0)**: Breaking changes
-- **Minor (0.X.0)**: New features, backward compatible
-- **Patch (0.0.X)**: Bug fixes, backward compatible
+## 📚 Documentation
 
-### Release Flow
+### Documentation Standards
 
-1. **Feature Freeze**: Stop accepting new features
-2. **Testing**: Thorough testing of all features
-3. **Documentation**: Update all relevant docs
-4. **Release Notes**: Create comprehensive release notes
-5. **Tag Release**: Create Git tag with version
-6. **Deploy**: Run deployment pipeline
-7. **Announce**: Update community and stakeholders
+- **README Updates**: Update README.md for significant changes
+- **Code Comments**: Add JSDoc comments for complex functions
+- **API Documentation**: Document all public APIs
+- **Architecture Decisions**: Use ADRs for significant decisions
 
-## Getting Help
+### Documentation Locations
 
-### Resources
+- `README.md` - Main project documentation
+- `docs/` - Detailed guides and references
+- `docs/architecture/` - System architecture
+- `docs/guides/` - Development guides
+- `docs/api/` - API documentation
+- `docs/decisions/` - Architecture decision records
 
-- **Documentation**: `/docs` directory
-- **API Reference**: [API Documentation](docs/API.md)
-- **Architecture**: [Architecture Guide](docs/ARCHITECTURE.md)
-- **Examples**: `/examples` directory
+## 🎯 Recognition
 
-### Community Support
+Contributors are recognized through:
 
-- **GitHub Issues**: For bugs and feature requests
-- **GitHub Discussions**: For questions and general discussion
-- **Discord**: Real-time community chat (link in README)
-- **Email**: For security issues (security@example.com)
+- GitHub contributor statistics
+- Release notes for significant contributions
+- Annual contributor acknowledgments
+- Community shoutouts
 
-### Maintainer Contact
+## 📞 Getting Help
 
-If you need to reach a maintainer directly:
+- **Documentation**: Check `docs/` directory first
+- **Issues**: Search existing issues or create new ones
+- **Discussions**: Use GitHub Discussions for questions
+- **Slack**: Join our community workspace
 
-- **Technical Questions**: GitHub Discussions
-- **Security Issues**: security@example.com
-- **Code Review**: Tag @maintainer in PRs
-- **General**: Use GitHub Discussions
+## 📋 Checklist for Contributors
 
-## Recognition
+### Before Starting Work
 
-### Contributors
+- [ ] Issue exists or create one
+- [ ] No duplicate issues/PRs
+- [ ] Understand requirements and acceptance criteria
 
-All contributors are recognized in:
+### During Development
 
-- **README.md**: Contributors section
-- **Release Notes**: Significant contributions highlighted
-- **Website**: Annual contributor showcase
+- [ ] Follow code standards and conventions
+- [ ] Write comprehensive tests
+- [ ] Update documentation
+- [ ] Test in multiple environments
 
-### Ways to Contribute
+### Before Submitting
 
-You don't just have to write code! We welcome:
+- [ ] All quality checks pass (`npm run validate`)
+- [ ] Tests cover new functionality
+- [ ] Documentation updated
+- [ ] Commit messages follow conventions
+- [ ] Branch up to date with main
 
-- **Documentation**: Improve guides and examples
-- **Testing**: Help test new features and fixes
-- **Design**: UI/UX improvements and feedback
-- **Translation**: Localize documentation
-- **Community**: Help other users in discussions
-- **Bug Reports**: Report issues you find
-- **Feature Ideas**: Suggest improvements
+### After Submission
 
-## License
+- [ ] Respond to review feedback promptly
+- [ ] Address all CI failures
+- [ ] Keep PR updated with main branch
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+---
 
-## Questions?
-
-Don't hesitate to ask! We're here to help you contribute successfully.
-
-- **Quick Questions**: GitHub Discussions
-- **Detailed Help**: Create a "question" issue
-- **Security**: Email security@example.com
-
-Thank you for contributing to React TypeScript Starter! 🚀
+Thank you for contributing to React TypeScript Starter! Your efforts help make this project better for everyone. 🚀

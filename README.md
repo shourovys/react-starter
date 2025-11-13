@@ -59,50 +59,54 @@ A modern, production-ready React + TypeScript boilerplate with comprehensive tes
 react-typescript-starter/
 ├── .github/                    # GitHub Actions workflows
 │   └── workflows/
-│       └── ci.yml             # CI/CD pipeline
+│       ├── ci.yml             # CI/CD pipeline
+│       └── deploy.yml         # Deployment workflow
+├── docs/                      # Documentation
+│   ├── api/                   # API documentation
+│   ├── architecture/          # System architecture
+│   ├── guides/                # Development guides
+│   └── decisions/             # Architecture decision records
 ├── public/                     # Static assets
+│   ├── fonts/                 # Web fonts
+│   ├── images/                # Static images
+│   ├── locales/               # i18n files
 │   ├── favicon.ico
 │   ├── manifest.json          # PWA manifest
 │   ├── robots.txt
 │   └── sitemap.xml
+├── scripts/                   # Utility scripts
+│   ├── generate-component.js  # Component generator
+│   └── analyze-bundle.js      # Bundle analysis
 ├── src/                       # Source code
-│   ├── components/            # React components
-│   │   ├── ui/               # shadcn/ui components
-│   │   ├── error-boundary.tsx
-│   │   ├── footer.tsx
-│   │   ├── header.tsx
-│   │   ├── theme-provider.tsx
-│   │   └── theme-toggle.tsx
-│   ├── config/               # Configuration files
-│   │   └── app-config.ts
+│   ├── app/                   # Application core layer
+│   │   ├── App.tsx           # Main application component
+│   │   ├── router.tsx        # Route configuration
+│   │   └── providers.tsx     # Global context providers
+│   ├── assets/                # Asset management
+│   │   ├── images/           # Image assets with exports
+│   │   └── icons/            # Icon assets with exports
+│   ├── components/            # Reusable UI components
+│   │   ├── ui/               # shadcn/ui base components
+│   │   ├── layout/           # Layout components (Header, Footer, Sidebar)
+│   │   └── common/           # Common components (ErrorBoundary, LoadingSpinner)
+│   ├── features/              # Feature-based modules
+│   │   ├── auth/             # Authentication feature
+│   │   ├── dashboard/        # Dashboard feature
+│   │   └── user/             # User management feature
 │   ├── hooks/                # Custom React hooks
-│   │   ├── use-fetch.ts
-│   │   ├── use-local-storage.ts
-│   │   ├── use-theme.ts
-│   │   └── use-toast.ts
-│   ├── lib/                  # Utility functions
-│   │   └── utils.ts
-│   ├── pages/                # Page components
-│   │   ├── about-page.tsx
-│   │   ├── dashboard-page.tsx
-│   │   ├── home-page.tsx
-│   │   ├── index.ts
-│   │   └── not-found-page.tsx
-│   ├── services/             # API services
-│   │   ├── api-client.ts
-│   │   ├── auth-service.ts
-│   │   ├── index.ts
-│   │   └── user-service.ts
-│   ├── store/                # State management
-│   │   ├── auth-store.ts
-│   │   ├── index.ts
-│   │   ├── ui-store.ts
-│   │   └── user-store.ts
-│   ├── types/                # TypeScript types
-│   │   └── global.d.ts
-│   ├── App.tsx               # Main app component
-│   ├── main.tsx              # App entry point
-│   └── index.css             # Global styles
+│   ├── pages/                # Page components with co-located tests
+│   │   ├── HomePage/
+│   │   ├── AboutPage/
+│   │   ├── DashboardPage/
+│   │   └── NotFoundPage/
+│   ├── services/             # Service layer
+│   │   ├── api/              # API client and services
+│   │   └── storage/          # Local storage services
+│   ├── store/                # State management (Redux Toolkit)
+│   │   ├── slices/           # State slices
+│   │   └── hooks.ts          # Typed store hooks
+│   ├── types/                # TypeScript type definitions
+│   └── utils/                # Utility functions
 ├── tests/                     # Test files
 │   ├── accessibility/         # Accessibility tests
 │   ├── contracts/             # Contract tests
@@ -114,6 +118,7 @@ react-typescript-starter/
 │   ├── unit/                  # Unit tests
 │   └── utils/                 # Test utilities
 ├── .editorconfig              # Editor configuration
+├── .env.example               # Environment variables template
 ├── .eslintrc.mjs             # ESLint configuration
 ├── .gitignore                # Git ignore rules
 ├── .lintstagedrc.json        # lint-staged configuration
