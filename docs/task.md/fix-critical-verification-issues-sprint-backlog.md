@@ -54,9 +54,9 @@ _Time Estimate: 30 minutes_
 
 **Verification:**
 
-- [ ] E2E test "should load the main page successfully" passes
-- [ ] E2E test "should display the main content sections" passes
-- [ ] E2E test "should handle 404 gracefully" passes
+- [x] E2E test "should load the main page successfully" passes
+- [x] E2E test "should display the main content sections" passes
+- [x] E2E test "should handle 404 gracefully" passes
 
 #### **Story 1.2: Fix E2E Theme Toggle Selectors**
 
@@ -137,14 +137,14 @@ _Time Estimate: 1-2 hours_
 **Tasks:**
 
 - [x] Write unit tests for useTheme hook
-- [ ] Write unit tests for useLocalStorage hook
-- [ ] Write unit tests for useToast hook
-- [ ] Write unit tests for authService
-- [ ] Write unit tests for userService
-- [ ] Write unit tests for apiClient
-- [ ] Write unit tests for authStore
-- [ ] Write unit tests for uiStore
-- [ ] Write unit tests for userStore
+- [x] Write unit tests for useLocalStorage hook
+- [x] Write unit tests for useToast hook
+- [x] Write unit tests for authService
+- [x] Write unit tests for userService
+- [x] Write unit tests for apiClient
+- [x] Write unit tests for authStore
+- [x] Write unit tests for uiStore
+- [x] Write unit tests for userStore
 
 **Verification:**
 

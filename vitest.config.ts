@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    // setupFiles: ['./tests/setup.ts'], // Temporarily disabled for debugging
+    setupFiles: ['./tests/setup.ts'],
     css: true,
     typecheck: {
       enabled: false,
@@ -16,7 +16,6 @@ export default defineConfig({
         // Inline these packages to avoid compilation issues
         '@testing-library/react',
         '@testing-library/user-event',
-        '@testing-library/jest-dom',
       ],
     },
     include: [

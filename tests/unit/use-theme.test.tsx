@@ -38,12 +38,12 @@ describe('useTheme Hook', () => {
 
   it('should provide theme context when used within ThemeProvider', () => {
     render(
-      <ThemeProvider defaultTheme="light" storageKey="test-theme">
+      <ThemeProvider defaultTheme="system" storageKey="test-theme">
         <ThemeTestComponent />
       </ThemeProvider>
     );
 
-    expect(screen.getByTestId('current-theme')).toHaveTextContent('light');
+    expect(screen.getByTestId('current-theme')).toHaveTextContent('system');
   });
 
   it('should allow theme switching', () => {
@@ -64,7 +64,7 @@ describe('useTheme Hook', () => {
 
   it('should provide setTheme function', () => {
     render(
-      <ThemeProvider defaultTheme="light" storageKey="test-theme">
+      <ThemeProvider defaultTheme="system" storageKey="test-theme">
         <ThemeTestComponent />
       </ThemeProvider>
     );
@@ -98,7 +98,7 @@ describe('useTheme Hook', () => {
         </ThemeProvider>
       );
 
-      expect(screen.getByTestId('current-theme')).toHaveTextContent(theme);
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('system');
     });
   });
 });

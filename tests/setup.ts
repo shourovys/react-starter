@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
-import { beforeAll, beforeEach, afterAll, afterEach, vi } from 'vitest';
-// import { server } from './mocks/server';
+import { vi } from 'vitest';
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
@@ -38,6 +37,7 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 
 // afterEach(() => {
 //   server.resetHandlers();
+//   cleanup();
 // });
 
 // afterAll(() => {

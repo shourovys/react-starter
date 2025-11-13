@@ -74,7 +74,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t bg-background">
+    <footer data-testid="app-footer" className="border-t bg-background">
       <div className="container mx-auto px-4 py-12">
         {/* Main footer content */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-6">

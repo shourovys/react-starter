@@ -9,6 +9,7 @@ interface User {
 export function UserList() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Simulate API call
@@ -20,6 +21,7 @@ export function UserList() {
         setLoading(false);
       } catch (error) {
         console.error('Failed to fetch users:', error);
+        setError('Failed to fetch users');
         setLoading(false);
       }
     };
@@ -31,8 +33,16 @@ export function UserList() {
     return <div>Loading users...</div>;
   }
 
+  if (error) {
+    return (
+      <div className="user-list" role="region" aria-label="User List">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="user-list">
+    <div className="user-list" role="region" aria-label="User List">
       {users.map(user => (
         <div key={user.id} className="user-item">
           <p>ID: {user.id}</p>

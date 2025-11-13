@@ -7,20 +7,22 @@ test.describe('Application E2E Tests', () => {
 
   test('should load the main page successfully', async ({ page }) => {
     await expect(page).toHaveTitle(/React.*TypeScript.*Starter/);
-    await expect(page.locator('h1, h2, h3')).toContainText(
+    await expect(page.locator('[data-testid="welcome-title"]')).toContainText(
       /Welcome to React.*TypeScript Starter/
     );
   });
 
   test('should display the main content sections', async ({ page }) => {
     // Check for the main card
-    await expect(page.locator('h1, h2, h3, h4, h5, h6')).toContainText(
+    await expect(page.locator('[data-testid="welcome-title"]')).toContainText(
       'Welcome'
     );
-    await expect(page.locator('p')).toContainText('production-ready');
+    await expect(
+      page.locator('[data-testid="welcome-description"]')
+    ).toContainText('production-ready');
 
     // Check for the card component
-    await expect(page.locator('[class*="card"]')).toHaveCount(1);
+    await expect(page.locator('[data-testid="welcome-card"]')).toHaveCount(1);
   });
 
   test('should toggle theme successfully', async ({ page }) => {
