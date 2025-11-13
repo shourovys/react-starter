@@ -27,10 +27,10 @@ export function useLocalStorage<T>(
         // Allow value to be a function so we have the same API as useState
         const valueToStore =
           value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        setStoredValue(valueToStore);
       } catch {
-        // Error handling for localStorage operations
+        // Error handling for localStorage operations - don't update state if storage fails
       }
     },
     [key, storedValue]
@@ -76,10 +76,10 @@ export function useSessionStorage<T>(
         // Allow value to be a function so we have the same API as useState
         const valueToStore =
           value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
         window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
+        setStoredValue(valueToStore);
       } catch {
-        // Error handling for sessionStorage operations
+        // Error handling for sessionStorage operations - don't update state if storage fails
       }
     },
     [key, storedValue]

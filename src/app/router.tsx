@@ -1,12 +1,11 @@
-import { ErrorBoundary } from '@/components/error-boundary';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { Toaster } from '@/components/ui/toaster';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // Import pages
 import AboutPage from '@/pages/about-page';
-import DashboardPage from '@/pages/dashboard-page';
+import { DashboardPage } from '@/features/dashboard';
 import HomePage from '@/pages/home-page';
 import NotFoundPage from '@/pages/not-found-page';
 
@@ -28,8 +27,6 @@ export function AppRouter() {
         </main>
 
         <Footer />
-
-        <Toaster />
       </div>
     </BrowserRouter>
   );
