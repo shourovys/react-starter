@@ -126,11 +126,17 @@ export default defineConfig(({ mode }) => {
         // TypeScript path mapping - these are handled by vite-tsconfig-paths
         // but we can add custom aliases here if needed
         '@': resolve(__dirname, './src'),
+        '@app': resolve(__dirname, './src/app'),
+        '@assets': resolve(__dirname, './src/assets'),
         '@components': resolve(__dirname, './src/components'),
-        '@lib': resolve(__dirname, './src/lib'),
-        '@types': resolve(__dirname, './src/types'),
+        '@features': resolve(__dirname, './src/features'),
         '@hooks': resolve(__dirname, './src/hooks'),
+        '@lib': resolve(__dirname, './src/lib'),
+        '@pages': resolve(__dirname, './src/pages'),
         '@services': resolve(__dirname, './src/services'),
+        '@store': resolve(__dirname, './src/store'),
+        '@types': resolve(__dirname, './src/types'),
+        '@utils': resolve(__dirname, './src/utils'),
       },
     },
 
