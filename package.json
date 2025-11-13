@@ -40,11 +40,14 @@
     "@types/react-router-dom": "^5.3.3",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
+    "date-fns": "^4.1.0",
+    "lodash": "^4.17.21",
     "lucide-react": "0.445.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.5",
-    "tailwind-merge": "2.5.0"
+    "tailwind-merge": "2.5.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
@@ -61,6 +64,7 @@
     "@types/eslint-plugin-jsx-a11y": "^6",
     "@types/eslint-plugin-tailwindcss": "^3",
     "@types/jsdom": "^27",
+    "@types/lodash": "^4",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
