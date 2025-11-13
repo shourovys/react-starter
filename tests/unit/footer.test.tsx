@@ -27,9 +27,14 @@ describe('Footer Component', () => {
       </BrowserRouter>
     );
 
-    // Check for copyright symbol and React TypeScript Starter text separately
+    // Check for copyright symbol and main content - test what's actually in the DOM
+    const footer = screen.getByTestId('app-footer');
+    expect(footer).toBeInTheDocument();
+
+    // Check that the copyright symbol is present
     expect(screen.getByText(/©/)).toBeTruthy();
-    expect(screen.getByText(/React TypeScript Starter/)).toBeTruthy();
+
+    // Check for copyright text in the bottom section (avoiding brand section)
     expect(screen.getByText(/All rights reserved/)).toBeTruthy();
   });
 

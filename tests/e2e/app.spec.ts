@@ -78,17 +78,17 @@ test.describe('Application E2E Tests', () => {
   test('should be responsive on different screen sizes', async ({ page }) => {
     // Test mobile view
     await page.setViewportSize({ width: 375, height: 667 });
-    await expect(page.locator('h1, h2, h3')).toBeVisible();
+    await expect(page.locator('[data-testid="welcome-title"]')).toBeVisible();
     await expect(page.locator('header')).toBeVisible();
 
     // Test tablet view
     await page.setViewportSize({ width: 768, height: 1024 });
-    await expect(page.locator('h1, h2, h3')).toBeVisible();
+    await expect(page.locator('[data-testid="welcome-title"]')).toBeVisible();
     await expect(page.locator('header')).toBeVisible();
 
     // Test desktop view
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await expect(page.locator('h1, h2, h3')).toBeVisible();
+    await expect(page.locator('[data-testid="welcome-title"]')).toBeVisible();
     await expect(page.locator('header')).toBeVisible();
   });
 

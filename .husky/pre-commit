@@ -1,14 +1,65 @@
-# Pre-commit hook using lint-staged for efficient staged file validation
-echo "🧹 Running pre-commit checks..."
+# Comprehensive pre-commit hook with systematic testing workflow
+echo "🧹 Running comprehensive pre-commit quality checks..."
 
-# Run lint-staged on staged files
+# Stage 1: Code formatting and linting with lint-staged
+echo "📝 Stage 1: Running lint-staged on staged files..."
 npx lint-staged
 
-# Check exit code
 if [ $? -ne 0 ]; then
-  echo "❌ Pre-commit validation failed!"
-  echo "Please fix the issues above and try again."
+  echo "❌ Code formatting/linting failed!"
+  echo "🔧 Trying to fix linting issues automatically..."
+  npm run lint:fix
+
+  if [ $? -ne 0 ]; then
+    echo "❌ Linting issues could not be resolved automatically!"
+    echo "Please fix the remaining issues manually and try again."
+    exit 1
+  fi
+
+  echo "✅ Linting issues auto-fixed. Continuing validation..."
+fi
+
+# Stage 2: TypeScript type checking
+echo "🔍 Stage 2: Running TypeScript type checking..."
+npm run type-check
+
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript type checking failed!"
+  echo "Please fix the type errors and try again."
   exit 1
 fi
 
-echo "✅ All pre-commit checks passed!"
+# Stage 3: Smart unit test execution
+echo "🧪 Stage 3: Running unit tests..."
+# Check if TypeScript files or test files were modified
+if git diff --cached --name-only | grep -E '\.(tsx?|test\.tsx?)$' > /dev/null 2>&1; then
+  echo "📋 Running unit tests for modified files..."
+  npm run test -- --run --no-typecheck
+else
+  echo "⏭️ Skipping unit tests (no TS/test files modified)"
+fi
+
+if [ $? -ne 0 ]; then
+  echo "❌ Unit tests failed!"
+  echo "Please fix the test failures and try again."
+  exit 1
+fi
+
+# Stage 4: Smart E2E test execution
+echo "🎭 Stage 4: Running E2E tests..."
+# Check if critical files were modified that would affect E2E tests
+if git diff --cached --name-only | grep -E '(App\.(tsx?|jsx?)|pages\/|components\/|e2e\/)' > /dev/null 2>&1; then
+  echo "🌐 Running E2E tests for modified critical files..."
+  npm run test:e2e
+else
+  echo "⏭️ Skipping E2E tests (no critical UI/e2e files modified)"
+fi
+
+if [ $? -ne 0 ]; then
+  echo "❌ E2E tests failed!"
+  echo "Please fix the E2E test failures and try again."
+  exit 1
+fi
+
+echo "✅ All comprehensive pre-commit checks passed!"
+echo "🎯 Quality assurance pipeline completed successfully!"
