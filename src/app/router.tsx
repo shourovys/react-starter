@@ -3,8 +3,11 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-// Import pages
-import { AboutPage, DashboardPage, HomePage, NotFoundPage } from '@/pages';
+// Import pages from feature modules
+import { HomePage } from '@/features/home';
+import { AboutPage } from '@/features/about';
+import { DashboardPage } from '@/features/dashboard';
+import NotFoundPage from '@/app/NotFoundPage';
 
 export function AppRouter() {
   return (

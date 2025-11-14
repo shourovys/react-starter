@@ -1,15 +1,11 @@
-import { ErrorBoundary } from '@/components/error-boundary';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
+import { ThemeProvider } from '@/components/common/ThemeProvider';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // Import pages
-import AboutPage from '@/pages/about-page';
-import DashboardPage from '@/pages/dashboard-page';
-import HomePage from '@/pages/home-page';
-import NotFoundPage from '@/pages/not-found-page';
+import { AboutPage, HomePage, DashboardPage, NotFoundPage } from '@/pages';
 
 import './App.css';
 
@@ -33,8 +29,6 @@ function App() {
             </main>
 
             <Footer />
-
-            <Toaster />
           </div>
         </Router>
       </ThemeProvider>
