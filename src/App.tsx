@@ -5,7 +5,10 @@ import { ThemeProvider } from '@/components/common/ThemeProvider';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // Import pages
-import { AboutPage, HomePage, DashboardPage, NotFoundPage } from '@/pages';
+import { AboutPage } from '@/features/about';
+import { HomePage } from '@/features/home';
+import { DashboardPage } from '@/features/dashboard';
+import NotFoundPage from '@/app/NotFoundPage';
 
 import './App.css';
 

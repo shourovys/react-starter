@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { uiStore as useUIStore } from '@/store';
+import { uiStore } from '@/store';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '@/components/common/ThemeProvider';
 
 export function Header() {
   const location = useLocation();
-  const { sidebarOpen, toggleSidebar } = useUIStore();
+  const { sidebarOpen, toggleSidebar } = uiStore();
 
   const navigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
